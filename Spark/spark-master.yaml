@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: spark-master
+  name: spark-master
+  namespace: abk609
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: spark-master
+    spec:
+      containers:
+      - name : spark-master
+        image: hlatreider/spark_2.1.1
+        imagePullPolicy: "IfNotPresent"
+        name: spark-master
+        resources:
+          requests:
+            cpu: "10"
+        ports:
+        - containerPort: 7077
+        command:
+         - "/bin/bash"
+         - "-c"
+         - "--"
+        args :
+         - './start-master.sh ; sleep infinity'
+         

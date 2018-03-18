@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: spark-worker
+  name: spark-worker
+  namespace: abk609
+spec:
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        name: spark-worker
+    spec:
+      containers:
+      - image: hlatreider/spark_2.1.1 
+        imagePullPolicy : "IfNotPresent"
+        name: spark-worker
+        resources:
+          requests:
+            cpu: "20"
+        ports:
+        - containerPort: 7078
+          protocol: TCP
+        command:
+         - "/bin/bash"
+         - "-c"
+         - "--"
+        args :
+         - './start-worker.sh ; sleep infinity'

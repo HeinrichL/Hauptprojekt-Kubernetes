@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: flink-jobmanager
+  namespace: abk609
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: flink
+        component: jobmanager
+    spec:
+      containers:
+      - name: jobmanager
+        image: flink:1.3.2
+        args:
+        - jobmanager
+        ports:
+        - containerPort: 6123
+          name: rpc
+        - containerPort: 6124
+          name: blob
+        - containerPort: 6125
+          name: query
+        - containerPort: 8081
+          name: ui
+        env:
+          - name: JOB_MANAGER_RPC_ADDRESS
+            value: flink-jobmanager
+          - name: FLINK_JM_HEAP
+            value: "30000"
+          - name: FLINK_TM_HEAP
+            value: "30000"
+        resources:
+          requests:
+            cpu: "20"
+          
